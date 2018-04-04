@@ -64,17 +64,11 @@ def setup_handlers(web_app):
     Function used to setup all the handlers used.
     """
 
-    lsstquery_handlers = [
-        ('/lsstquery', LSSTQuery_handler),
-    ]
     print("#######EYECATCHER##########")
     # add the baseurl to our paths
     base_url = web_app.settings['base_url']
-    lsst_handlers = [
-        (ujoin(base_url, x[0]), x[1])
-        for x in lsstquery_handlers
-    ]
+    handlers = [(ujoin(base_url, r'/lsstquery/'), LSSTQuery_handler)]
     print("base_url: {}".format(base_url))
-    print("lsst_handlers: {}".format(str(lsst_handlers)))
+    print("handlers: {}".format(str(handlers)))
     print("#######EYECATCHER##########")
-    web_app.add_handlers('.*', lsstquery_handlers)
+    web_app.add_handlers('.*', handlers)
