@@ -71,7 +71,7 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
 function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<Response> {
   // Fake out URL check in makeRequest
   let newSettings = ServerConnection.makeSettings({
-    baseUrl: url,
+    baseUrl: settings.baseUrl,
     pageUrl: settings.pageUrl,
     wsUrl: settings.wsUrl,
     init: settings.init,
