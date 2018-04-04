@@ -67,14 +67,14 @@ def setup_handlers(web_app):
     lsstquery_handlers = [
         ('/lsstquery', LSSTQuery_handler),
     ]
-
+    print("#######EYECATCHER##########")
     # add the baseurl to our paths
     base_url = web_app.settings['base_url']
-    git_handlers = [
+    lsst_handlers = [
         (ujoin(base_url, x[0]), x[1])
         for x in lsstquery_handlers
     ]
     print("base_url: {}".format(base_url))
-    print(git_handlers)
-
+    print("lsst_handlers: {}".format(str(lsst_handlers)))
+    print("#######EYECATCHER##########")
     web_app.add_handlers('.*', lsstquery_handlers)
