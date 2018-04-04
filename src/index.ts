@@ -26,6 +26,9 @@ import {
   ServiceManager, ServerConnection
 } from '@jupyterlab/services';
 
+import {
+  PageConfig
+} from '@jupyterlab/coreutils';
 
 /**
  * The command IDs used by the plugin.
@@ -67,23 +70,23 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
 
 function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<Response> {
   // Fake out URL check in makeRequest
-  let newSettings = ServerConnection.makeSettings({
-    baseUrl: url,
-    pageUrl: settings.pageUrl,
-    wsUrl: settings.wsUrl,
-    init: settings.init,
-    token: settings.token,
-    Request: settings.Request,
-    Headers: settings.Headers,
-    WebSocket: settings.WebSocket
-  });
-  return ServerConnection.makeRequest(url, init, newSettings)
+  //  let newSettings = ServerConnection.makeSettings({
+  //    baseUrl: url,
+  //    pageUrl: settings.pageUrl,
+  //    wsUrl: settings.wsUrl,
+  //    init: settings.init,
+  //    token: settings.token,
+  //    Request: settings.Request,
+  //   Headers: settings.Headers,
+  //   WebSocket: settings.WebSocket
+  // });
+  return ServerConnection.makeRequest(url, init, settings)
 }
 
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
   let queryid = 3; // Get from dialog
   let body = JSON.stringify({ "query_id": queryid })
-  let endpoint = "/queries"
+  let endpoint = PageConfig.getBaseUrl() + "/lsstquery"
   let init = {
     method: "POST",
     body: body
