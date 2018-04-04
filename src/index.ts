@@ -70,17 +70,18 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
 
 function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<Response> {
   // Fake out URL check in makeRequest
-  //  let newSettings = ServerConnection.makeSettings({
-  //    baseUrl: url,
-  //    pageUrl: settings.pageUrl,
-  //    wsUrl: settings.wsUrl,
-  //    init: settings.init,
-  //    token: settings.token,
-  //    Request: settings.Request,
-  //   Headers: settings.Headers,
-  //   WebSocket: settings.WebSocket
-  // });
-  return ServerConnection.makeRequest(url, init, settings)
+  let newSettings = ServerConnection.makeSettings({
+    baseUrl: url,
+    pageUrl: settings.pageUrl,
+    wsUrl: settings.wsUrl,
+    init: settings.init,
+    token: settings.token,
+    Request: settings.Request,
+    Headers: settings.Headers,
+    WebSocket: settings.WebSocket
+  });
+  console.log("url: ", url, "init: ", init, "settings: ", newSettings)
+  return ServerConnection.makeRequest(url, init, newSettings)
 }
 
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
