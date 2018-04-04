@@ -91,6 +91,7 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
     method: "POST",
     body: body
   }
+  console.log("Endpoint: ", endpoint, " / Body: ", body)
   let settings = svcManager.serverSettings
   let r = apiRequest(endpoint, init, settings)
     .then((response => {
