@@ -24,6 +24,5 @@ def load_jupyter_server_extension(nbapp):
     """
     Function to load Jupyter Server Extension.
     """
-    git = Git()
-    nbapp.web_app.settings['git'] = git
+    nbapp.log.info("Loading lsstquery server extension.")
     setup_handlers(nbapp.web_app)
