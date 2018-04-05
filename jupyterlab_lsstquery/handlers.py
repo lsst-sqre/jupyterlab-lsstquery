@@ -69,7 +69,7 @@ def setup_handlers(web_app):
     # add the baseurl to our paths
     host_pattern = '.*$'
     base_url = web_app.settings['base_url']
-    handlers = [(ujoin(base_url, r'/lsstquery/'), LSSTQuery_handler)]
+    handlers = [(ujoin(base_url, r'/lsstquery'), LSSTQuery_handler)]
     logging.debug("base_url: {}".format(base_url))
     logging.debug("handlers: {}".format(str(handlers)))
     logging.debug("#######EYECATCHER##########")
