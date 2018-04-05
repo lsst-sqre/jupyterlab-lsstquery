@@ -44,7 +44,7 @@ class LSSTQuery_handler(APIHandler):
                 templatestr = self._get_template()
                 template = Template(templatestr)
                 body = template.render(query_id=query_id)
-                f.write(body)
+                f.write(bytes(body, 'utf-8'))
         retval = {
             "status": 200,
             "filename": filename,
