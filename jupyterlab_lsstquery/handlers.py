@@ -63,12 +63,14 @@ def setup_handlers(web_app):
     """
     Function used to setup all the handlers used.
     """
-
-    print("#######EYECATCHER##########")
+    import logging
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug("#######EYECATCHER##########")
     # add the baseurl to our paths
+    host_pattern = '.*$'
     base_url = web_app.settings['base_url']
     handlers = [(ujoin(base_url, r'/lsstquery/'), LSSTQuery_handler)]
-    print("base_url: {}".format(base_url))
-    print("handlers: {}".format(str(handlers)))
-    print("#######EYECATCHER##########")
-    web_app.add_handlers('.*', handlers)
+    logging.debug("base_url: {}".format(base_url))
+    logging.debug("handlers: {}".format(str(handlers)))
+    logging.debug("#######EYECATCHER##########")
+    web_app.add_handlers(host_pattern, handlers)

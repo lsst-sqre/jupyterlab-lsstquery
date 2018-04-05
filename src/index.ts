@@ -87,7 +87,7 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
   let queryid = 3; // Get from dialog
   let body = JSON.stringify({ "query_id": queryid })
-  let endpoint = PageConfig.getBaseUrl() + "lsstquery/"
+  let endpoint = PageConfig.getBaseUrl() + "lsstquery"
   let init = {
     method: "POST",
     body: body
