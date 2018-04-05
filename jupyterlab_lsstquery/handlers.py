@@ -30,17 +30,21 @@ class LSSTQuery_handler(APIHandler):
         self.finish(json.dumps(result))
 
     def _substitute_query(self, query_id):
-        templatestr = self._get_template()
-        template = Template(templatestr)
-        body = template.render(query_id=query_id)
         top = os.environ.get("JUPYTERHUB_SERVICE_PREFIX")
         root = os.environ.get("HOME") + "/notebooks"
         fname = self._get_filename(query_id)
         fpath = root + "/queries"
         os.makedirs(fpath, exist_ok=True)
         filename = fpath + "/" + fname
-        with open(filename, "wb") as f:
-            f.write(body)
+        if os.file.exists(filename):
+            with open(filename, "rb") as f:
+                body = f.read().decode("utf-8")
+        else:
+            with open(filename, "wb") as f:
+                templatestr = self._get_template()
+                template = Template(templatestr)
+                body = template.render(query_id=query_id)
+                f.write(body)
         retval = {
             "status": 200,
             "filename": filename,
