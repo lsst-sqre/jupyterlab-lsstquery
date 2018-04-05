@@ -34,7 +34,7 @@ class LSSTQuery_handler(APIHandler):
         template = Template(templatestr)
         body = template.render(query_id=query_id)
         top = os.environ.get("JUPYTERHUB_SERVICE_PREFIX")
-        root = os.environ.get("JUPTYER_SERVER_ROOT")
+        root = os.environ.get("HOME") + "/notebooks"
         fname = self._get_filename(query_id)
         fpath = root + "/queries"
         os.makedirs(fpath, exist_ok=True)
