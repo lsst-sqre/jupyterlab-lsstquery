@@ -150,6 +150,9 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
   let queryid = queryDialog(docManager).then(function(res) {
     return res
   })
+  if (!queryid) {
+    return new Promise((res, rej) => { })
+  }
   let body = JSON.stringify({ "query_id": queryid })
   let endpoint = PageConfig.getBaseUrl() + "lsstquery"
   let init = {
