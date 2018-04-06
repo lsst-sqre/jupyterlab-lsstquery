@@ -106,6 +106,7 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
     })
     );
   console.log("Response: ", r)
+  return r
 }
 
 
