@@ -4,10 +4,35 @@ This is a Handler Module with all the individual handlers for LSSTQuery
 import json
 import os
 from jinja2 import Template
-
-
 from notebook.utils import url_path_join as ujoin
 from notebook.base.handlers import APIHandler
+
+NBTEMPLATE = '''
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print({{query_id}})"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "LSST_Stack (Python 3)",
+   "language": "python",
+   "name": "lsst_stack"
+  },
+  "language_info": {
+   "name": ""
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}'''.strip()
 
 
 class LSSTQuery_handler(APIHandler):
@@ -59,8 +84,7 @@ class LSSTQuery_handler(APIHandler):
 
     def _get_template(self):
         # replace with call to template service
-        tmpl = "print({{query_id}})"
-        return tmpl
+        return NBTEMPLATE
 
 
 def setup_handlers(web_app):
