@@ -5,9 +5,9 @@ import {
   Menu
 } from '@phosphor/widgets';
 
-//import {
-//  showDialog, Dialog
-//} from '@jupyterlab/apputils';
+import {
+  showDialog, Dialog
+} from '@jupyterlab/apputils';
 
 import {
   IMainMenu
@@ -29,6 +29,10 @@ import {
 import {
   PageConfig
 } from '@jupyterlab/coreutils';
+
+import {
+  Widget
+} from '@phosphor/widgets';
 
 /**
  * The command IDs used by the plugin.
@@ -75,6 +79,37 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
   mainMenu.fileMenu.addGroup(menu, rank);
 }
 
+class QueryHandler extends Widget {
+  constructor() {
+    super({ node: Private.createQueryNode() });
+    this.addClass('jp-lsstqh')
+  }
+
+  get inputNode(): HTMLInputElement {
+    return this.node.getElementsByTagName('input')[0] as HTMLInputElement;
+  }
+
+  getValue(): string {
+    return this.inputNode.value;
+  }
+}
+
+
+
+function queryDialog(manager: IDocumentManager): Promise<string | null> {
+  return showDialog({
+    title: 'Query ID',
+    body: new QueryHandler(),
+    focusNodeSelector: 'input',
+    buttons: [Dialog.cancelButton(), Dialog.okButton({ label: 'CREATE' })]
+  }).then(result => {
+    if (!result.value) {
+      return null;
+    }
+    return result.value;
+  })
+};
+
 function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<PathContainer> {
   /**
   * Make a request to our endpoint to get a pointer to a templated
@@ -112,7 +147,9 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
 }
 
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
-  let queryid = 3; // Get from dialog
+  let queryid = queryDialog(docManager).then(function(res) {
+    return res
+  })
   let body = JSON.stringify({ "query_id": queryid })
   let endpoint = PageConfig.getBaseUrl() + "lsstquery"
   let init = {
@@ -147,3 +184,19 @@ const LSSTQueryExtension: JupyterLabPlugin<void> = {
 
 export default LSSTQueryExtension;
 
+namespace Private {
+  /**
+   * Create node for query handler.
+   */
+
+  export
+    function createQueryNode(): HTMLElement {
+    let body = document.createElement('div');
+    let qidLabel = document.createElement('label');
+    qidLabel.textContent = 'Enter Query ID';
+    let name = document.createElement('input');
+    body.appendChild(qidLabel);
+    body.appendChild(name);
+    return body;
+  }
+}
