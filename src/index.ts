@@ -38,6 +38,13 @@ namespace CommandIDs {
   export const lsstquery: string = 'lsstquery';
 };
 
+/**
+ * Interface used by the extension
+ */
+interface PathContainer {
+  path: string;
+}
+
 
 /**
  * Activate the extension.
@@ -68,7 +75,7 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
   mainMenu.fileMenu.addGroup(menu, rank);
 }
 
-function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<Response> {
+function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<PathContainer> {
   /**
   * Make a request to our endpoint to get a pointer to a templated
   *  notebook for a given query
@@ -115,9 +122,10 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
   let settings = svcManager.serverSettings
   console.log("Endpoint: ", endpoint, " / Body: ", body)
   console.log("Init: ", init, " / Settings: ", settings)
-  let r = apiRequest(endpoint, init, settings)
-  console.log("Response: ", r)
-  return r
+  apiRequest(endpoint, init, settings).then(function(res) {
+    docManager.open(res.path)
+  });
+  return new Promise((res, rej) => { })
 }
 
 
