@@ -69,6 +69,18 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
 }
 
 function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<Response> {
+  /**
+  * Make a request to our endpoint to get a pointer to a templated
+  *  notebook for a given query
+  *
+  * @param url - the path for the query extension
+  *
+  * @param init - The POST + body for the extension
+  *
+  * @param settings - the settings for the current notebook server.
+  *
+  * @returns a Promise resolved with the JSON response
+  */
   // Fake out URL check in makeRequest
   let newSettings = ServerConnection.makeSettings({
     baseUrl: settings.baseUrl,
@@ -81,7 +93,15 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
     WebSocket: settings.WebSocket
   });
   console.log("url: ", url, "init: ", init, "settings: ", newSettings)
-  return ServerConnection.makeRequest(url, init, newSettings)
+  return ServerConnection.makeRequest(url, init, newSettings).then(
+    response => {
+      if (response.status !== 200) {
+        return response.json().then(data => {
+          throw new ServerConnection.ResponseError(response, data.message);
+        });
+      }
+      return response.json();
+    });
 }
 
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
@@ -96,15 +116,6 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
   console.log("Endpoint: ", endpoint, " / Body: ", body)
   console.log("Init: ", init, " / Settings: ", settings)
   let r = apiRequest(endpoint, init, settings)
-    .then((response => {
-      let status = response.status
-      console.log("Status ", status, "=>", response)
-      if (status < 200 || status >= 300) {
-        Promise.reject(new ServerConnection.ResponseError(response))
-      }
-      return response
-    })
-    );
   console.log("Response: ", r)
   return r
 }

@@ -52,7 +52,7 @@ class LSSTQuery_handler(APIHandler):
         query_id = post_data["query_id"]
         self.log.debug(query_id)
         result = self._substitute_query(query_id)
-        self.finish(result)
+        self.finish(json.dumps(result))
 
     def _substitute_query(self, query_id):
         top = os.environ.get("JUPYTERHUB_SERVICE_PREFIX")
