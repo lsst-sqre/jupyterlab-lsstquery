@@ -36,7 +36,7 @@ class LSSTQuery_handler(APIHandler):
         fpath = root + "/queries"
         os.makedirs(fpath, exist_ok=True)
         filename = fpath + "/" + fname
-        if os.file.exists(filename):
+        if os.path.exists(filename):
             with open(filename, "rb") as f:
                 body = f.read().decode("utf-8")
         else:
