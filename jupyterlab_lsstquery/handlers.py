@@ -52,15 +52,15 @@ class LSSTQuery_handler(APIHandler):
         query_id = post_data["query_id"]
         self.log.debug(query_id)
         result = self._substitute_query(query_id)
-        self.finish(json.dumps(result))
+        self.finish(result)
 
     def _substitute_query(self, query_id):
         top = os.environ.get("JUPYTERHUB_SERVICE_PREFIX")
         root = os.environ.get("HOME") + "/notebooks"
         fname = self._get_filename(query_id)
-        fpath = root + "/queries"
+        fpath = "queries/" + fname
         os.makedirs(fpath, exist_ok=True)
-        filename = fpath + "/" + fname
+        filename = root + "/" + fpath
         if os.path.exists(filename):
             with open(filename, "rb") as f:
                 body = f.read().decode("utf-8")
@@ -73,6 +73,7 @@ class LSSTQuery_handler(APIHandler):
         retval = {
             "status": 200,
             "filename": filename,
+            "path": fpath,
             "url": top + "/tree/" + fpath,
             "body": body
         }
