@@ -59,7 +59,7 @@ class LSSTQuery_handler(APIHandler):
         root = os.environ.get("HOME") + "/notebooks"
         fname = self._get_filename(query_id)
         fpath = "queries/" + fname
-        os.makedirs(fpath, exist_ok=True)
+        os.makedirs(root + "/queries", exist_ok=True)
         filename = root + "/" + fpath
         if os.path.exists(filename):
             with open(filename, "rb") as f:
