@@ -123,7 +123,10 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
   console.log("Endpoint: ", endpoint, " / Body: ", body)
   console.log("Init: ", init, " / Settings: ", settings)
   apiRequest(endpoint, init, settings).then(function(res) {
-    docManager.open(res.path)
+    let path = res.path
+    console.log("Response Resolved: ", res)
+    console.log("Path: ", path)
+    docManager.open(path)
   });
   return new Promise((res, rej) => { })
 }
