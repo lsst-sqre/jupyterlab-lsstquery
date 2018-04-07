@@ -97,18 +97,19 @@ class QueryHandler extends Widget {
 
 
 function queryDialog(manager: IDocumentManager): Promise<string | null> {
-  return showDialog({
+  let options = {
     title: 'Query ID',
     body: new QueryHandler(),
     focusNodeSelector: 'input',
     buttons: [Dialog.cancelButton(), Dialog.okButton({ label: 'CREATE' })]
-  }).then(result => {
-    if (!result.value) {
-      return null;
+  }
+  return showDialog(options).then((result: any) => {
+    if (result.button.label === 'CREATE') {
+      return result.value;
     }
-    return result.value;
-  })
-};
+    return null;
+  });
+}
 
 function apiRequest(url: string, init: RequestInit, settings: ServerConnection.ISettings): Promise<PathContainer> {
   /**
@@ -148,7 +149,7 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
 
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
   let queryid = queryDialog(docManager).then(function(res) {
-    return res
+    return Promise.resolve(res)
   })
   if (!queryid) {
     return new Promise((res, rej) => { })
