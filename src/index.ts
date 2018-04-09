@@ -82,7 +82,7 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
 class QueryHandler extends Widget {
   constructor() {
     super({ node: Private.createQueryNode() });
-    this.addClass('jp-lsstqh')
+    this.addClass('lsst-qh')
   }
 
   get inputNode(): HTMLInputElement {
