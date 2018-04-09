@@ -104,9 +104,15 @@ function queryDialog(manager: IDocumentManager): Promise<string | null> {
     buttons: [Dialog.cancelButton(), Dialog.okButton({ label: 'CREATE' })]
   }
   return showDialog(options).then((result: any) => {
-    if (result.button.label === 'CREATE') {
-      return result.value;
+    if (!result.value) {
+      console.log("No result.value from queryDialog");
+      return null;
     }
+    if (result.button.label === 'CREATE') {
+      console.log("Got result ", result.value, " from queryDialog: CREATE")
+      return Promise.resolve(result.value);
+    }
+    console.log("Did not get queryDialog: CREATE")
     return null;
   });
 }
@@ -152,8 +158,10 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
     return Promise.resolve(res)
   })
   if (!queryid) {
+    console.log("queryid was null")
     return new Promise((res, rej) => { })
   }
+  console.log("Got queryid: ", queryid)
   let body = JSON.stringify({ "query_id": queryid })
   let endpoint = PageConfig.getBaseUrl() + "lsstquery"
   let init = {
