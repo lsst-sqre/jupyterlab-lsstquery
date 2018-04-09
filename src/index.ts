@@ -103,7 +103,7 @@ function queryDialog(manager: IDocumentManager): Promise<string | null> {
     focusNodeSelector: 'input',
     buttons: [Dialog.cancelButton(), Dialog.okButton({ label: 'CREATE' })]
   }
-  return showDialog(options).then((result: any) => {
+  return Promise.resolve(showDialog(options)).then((result: any) => {
     if (!result.value) {
       console.log("No result.value from queryDialog");
       return null;
