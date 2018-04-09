@@ -155,7 +155,7 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
 }
 
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
-  let queryid = await queryDialog(docManager).then(function(res) {
+  let queryid = queryDialog(docManager).then(function(res) {
     return Promise.resolve(res)
   })
   if (!queryid) {
