@@ -96,14 +96,15 @@ class QueryHandler extends Widget {
 
 
 
-async function queryDialog(manager: IDocumentManager): Promise<string | null> {
+function queryDialog(manager: IDocumentManager): Promise<string | null> {
+  console.log("entering queryDialog")
   let options = {
     title: 'Query ID',
     body: new QueryHandler(),
     focusNodeSelector: 'input',
     buttons: [Dialog.cancelButton(), Dialog.okButton({ label: 'CREATE' })]
   }
-  return await Promise.resolve(showDialog(options)).then((result: any) => {
+  return showDialog(options).then(result => {
     console.log("Result: ", result)
     if (!result.value) {
       console.log("No result.value from queryDialog");
@@ -155,9 +156,7 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
 }
 
 function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
-  let queryid = queryDialog(docManager).then(function(res) {
-    return Promise.resolve(res)
-  })
+  let queryid = Promise.resolve(queryDialog(docManager))
   if (!queryid) {
     console.log("queryid was null")
     return new Promise((res, rej) => { })
