@@ -62,7 +62,7 @@ function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docMan
   const { commands } = app;
 
   commands.addCommand(CommandIDs.lsstquery, {
-    label: 'Open from query ID',
+    label: 'Open from Query ID...',
     caption: 'Open notebook from supplied query ID',
     execute: () => {
       lsstQuery(app, docManager, svcManager)
