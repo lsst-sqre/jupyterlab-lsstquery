@@ -155,31 +155,30 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
     });
 }
 
-function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): Promise<any> {
-  let queryid = queryDialog(docManager).then(res => {
-    return res
-  })
-  if (!queryid) {
-    console.log("queryid was null")
+function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): void {
+  queryDialog(docManager).then(queryid => {
+    console.log("queryid is", queryid)
+    if (!queryid) {
+      console.log("queryid was null")
+      return new Promise((res, rej) => { })
+    }
+    let body = JSON.stringify({ "query_id": queryid })
+    let endpoint = PageConfig.getBaseUrl() + "lsstquery"
+    let init = {
+      method: "POST",
+      body: body
+    }
+    let settings = svcManager.serverSettings
+    console.log("Endpoint: ", endpoint, " / Body: ", body)
+    console.log("Init: ", init, " / Settings: ", settings)
+    apiRequest(endpoint, init, settings).then(function(res) {
+      let path = res.path
+      console.log("Response Resolved: ", res)
+      console.log("Path: ", path)
+      docManager.open(path)
+    });
     return new Promise((res, rej) => { })
-  }
-  console.log("Got queryid: ", queryid)
-  let body = JSON.stringify({ "query_id": queryid })
-  let endpoint = PageConfig.getBaseUrl() + "lsstquery"
-  let init = {
-    method: "POST",
-    body: body
-  }
-  let settings = svcManager.serverSettings
-  console.log("Endpoint: ", endpoint, " / Body: ", body)
-  console.log("Init: ", init, " / Settings: ", settings)
-  apiRequest(endpoint, init, settings).then(function(res) {
-    let path = res.path
-    console.log("Response Resolved: ", res)
-    console.log("Path: ", path)
-    docManager.open(path)
   });
-  return new Promise((res, rej) => { })
 }
 
 
