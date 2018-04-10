@@ -97,7 +97,6 @@ class QueryHandler extends Widget {
 
 
 function queryDialog(manager: IDocumentManager): Promise<string | null> {
-  console.log("entering queryDialog")
   let options = {
     title: 'Query ID',
     body: new QueryHandler(),
@@ -105,7 +104,7 @@ function queryDialog(manager: IDocumentManager): Promise<string | null> {
     buttons: [Dialog.cancelButton(), Dialog.okButton({ label: 'CREATE' })]
   }
   return showDialog(options).then(result => {
-    console.log("Result: ", result)
+    console.log("Result from queryDialog: ", result)
     if (!result.value) {
       console.log("No result.value from queryDialog");
       return null;
@@ -143,7 +142,6 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
     Headers: settings.Headers,
     WebSocket: settings.WebSocket
   });
-  console.log("url: ", url, "init: ", init, "settings: ", newSettings)
   return ServerConnection.makeRequest(url, init, newSettings).then(
     response => {
       if (response.status !== 200) {
@@ -169,12 +167,8 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
       body: body
     }
     let settings = svcManager.serverSettings
-    console.log("Endpoint: ", endpoint, " / Body: ", body)
-    console.log("Init: ", init, " / Settings: ", settings)
     apiRequest(endpoint, init, settings).then(function(res) {
       let path = res.path
-      console.log("Response Resolved: ", res)
-      console.log("Path: ", path)
       docManager.open(path)
     });
     return new Promise((res, rej) => { })

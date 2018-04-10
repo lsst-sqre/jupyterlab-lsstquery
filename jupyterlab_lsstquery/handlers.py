@@ -16,7 +16,9 @@ NBTEMPLATE = '''
    "metadata": {},
    "outputs": [],
    "source": [
-    "print({{query_id}})"
+    "import os\n",
+    "token = os.getenv(\"JUPYTERHUB_API_TOKEN\")\n",
+    "print(\"Placeholder for Butler query '{{queryid}}'\")"
    ]
   }
  ],
