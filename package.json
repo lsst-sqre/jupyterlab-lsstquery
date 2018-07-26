@@ -1,6 +1,6 @@
 {
   "name": "jupyterlab-lsstquery",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Create populated notebook from query ID",
   "author": "LSST DM/SQuaRE",
   "main": "lib/index.js",
