@@ -58,10 +58,10 @@ class LSSTQuery_handler(APIHandler):
 
     def _substitute_query(self, query_id):
         top = os.environ.get("JUPYTERHUB_SERVICE_PREFIX")
-        root = os.environ.get("HOME") + "/notebooks"
+        root = os.environ.get("HOME")
         fname = self._get_filename(query_id)
-        fpath = "queries/" + fname
-        os.makedirs(root + "/queries", exist_ok=True)
+        fpath = "notebooks/queries/" + fname
+        os.makedirs(root + "/notebooks/queries", exist_ok=True)
         filename = root + "/" + fpath
         if os.path.exists(filename):
             with open(filename, "rb") as f:
