@@ -14,7 +14,7 @@ import {
 } from '@jupyterlab/mainmenu';
 
 import {
-  JupyterLab, JupyterLabPlugin
+  JupyterLab, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import {
@@ -179,7 +179,7 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
 /**
  * Initialization data for the jupyterlab-lsstquery extension.
  */
-const LSSTQueryExtension: JupyterLabPlugin<void> = {
+const LSSTQueryExtension: JupyterFrontEndPlugin<void> = {
   activate: activateLSSTQueryExtension,
   id: 'jupyter.extensions.jupyterlab-lsstquery',
   requires: [
