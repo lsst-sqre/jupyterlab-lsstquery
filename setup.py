@@ -5,7 +5,7 @@ import setuptools
 
 setuptools.setup(
     name='jupyterlab_lsstquery',
-    version='0.0.3',
+    version='1.0.0-alpha6',
     packages=setuptools.find_packages(),
     install_requires=[
         'notebook',
