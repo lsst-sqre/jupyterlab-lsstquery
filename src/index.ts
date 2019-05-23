@@ -14,7 +14,7 @@ import {
 } from '@jupyterlab/mainmenu';
 
 import {
-  JupyterLab, JupyterLabPlugin
+  JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import {
@@ -53,7 +53,7 @@ interface PathContainer {
 /**
  * Activate the extension.
  */
-function activateLSSTQueryExtension(app: JupyterLab, mainMenu: IMainMenu, docManager: IDocumentManager): void {
+function activateLSSTQueryExtension(app: JupyterFrontEnd, mainMenu: IMainMenu, docManager: IDocumentManager): void {
 
   console.log('jupyterlab-lsstquery: activated')
 
@@ -153,7 +153,7 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
     });
 }
 
-function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: ServiceManager): void {
+function lsstQuery(app: JupyterFrontEnd, docManager: IDocumentManager, svcManager: ServiceManager): void {
   queryDialog(docManager).then(queryid => {
     console.log("queryid is", queryid)
     if (!queryid) {
@@ -179,7 +179,7 @@ function lsstQuery(app: JupyterLab, docManager: IDocumentManager, svcManager: Se
 /**
  * Initialization data for the jupyterlab-lsstquery extension.
  */
-const LSSTQueryExtension: JupyterLabPlugin<void> = {
+const LSSTQueryExtension: JupyterFrontEndPlugin<void> = {
   activate: activateLSSTQueryExtension,
   id: 'jupyter.extensions.jupyterlab-lsstquery',
   requires: [
