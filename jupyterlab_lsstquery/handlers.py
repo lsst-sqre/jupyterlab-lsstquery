@@ -16,9 +16,10 @@ NBTEMPLATE = '''
    "metadata": {},
    "outputs": [],
    "source": [
-    "import os\\n",
-    "token = os.getenv(\\"JUPYTERHUB_API_TOKEN\\")\\n",
-    "print(\\"Placeholder for Butler query '{{query_id}}'\\")"
+    "from jupyterlabutils.notebook import get_catalog, retrieve_query\\n",
+    "retrieved_job = retrieve_query('{{query_id}}')\\n",
+    "results = retrieved_job.fetch_result()\\n",
+    "results.to_table().show_in_notebook()"
    ]
   }
  ],
