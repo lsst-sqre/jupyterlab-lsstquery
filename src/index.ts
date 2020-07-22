@@ -3,7 +3,7 @@
 
 import {
   Menu
-} from '@phosphor/widgets';
+} from '@lumino/widgets';
 
 import {
   showDialog, Dialog
@@ -32,7 +32,7 @@ import {
 
 import {
   Widget
-} from '@phosphor/widgets';
+} from '@lumino/widgets';
 
 /**
  * The command IDs used by the plugin.
@@ -134,7 +134,7 @@ function apiRequest(url: string, init: RequestInit, settings: ServerConnection.I
   // Fake out URL check in makeRequest
   let newSettings = ServerConnection.makeSettings({
     baseUrl: settings.baseUrl,
-    pageUrl: settings.pageUrl,
+    appUrl: settings.appUrl,
     wsUrl: settings.wsUrl,
     init: settings.init,
     token: settings.token,
